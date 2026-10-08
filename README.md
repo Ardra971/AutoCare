@@ -103,3 +103,30 @@ AutoCare/
 ├── manage.py
 ├── .gitignore
 └── README.md
+
+
+## 📸 Screenshots
+
+### Home Page
+![Home Page](screenshots/Home.png)
+
+### Login
+![Login](screenshots/login.png)
+
+### Customer Dashboard
+![Customer Dashboard](screenshots/Dashboard.png)
+
+### My Vehicles
+![My Vehicles](screenshots/Add_Vehicles.png)
+
+### Services
+![Services](screenshots/services.png)
+
+### Bookings
+![Bookings](screenshots/Bookings.png)
+
+### Invoice
+![Invoice](screenshots/invoice.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/Admin_Dashboard.png)
