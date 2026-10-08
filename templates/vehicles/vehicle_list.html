@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Vehicles | AutoCare
+{% endblock %}
+
+{% block content %}
+
+<section class="vehicle-page">
+
+    <div class="vehicle-container">
+
+        <!-- Page Header -->
+
+        <div class="vehicle-header">
+
+            <div>
+                <span class="page-label">
+                    VEHICLE MANAGEMENT
+                </span>
+
+                <h1>
+                    My Vehicles
+                </h1>
+
+                <p>
+                    Manage your vehicles and keep their details
+                    organized in one place.
+                </p>
+            </div>
+
+            <a href="{% url 'add_vehicle' %}"
+               class="add-vehicle-btn">
+
+                + Add Vehicle
+
+            </a>
+
+        </div>
+
+
+        <!-- Vehicles -->
+
+        {% if vehicles %}
+
+            <div class="vehicle-grid">
+
+                {% for vehicle in vehicles %}
+
+                    <div class="vehicle-item">
+
+                        <div class="vehicle-item-top">
+
+                            <div class="vehicle-icon-large">
+                                🚗
+                            </div>
+
+                            <span class="vehicle-type">
+                                {{ vehicle.vehicle_type }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="vehicle-details">
+
+                            <h2>
+                                {{ vehicle.brand }}
+                                {{ vehicle.model }}
+                            </h2>
+
+                            <div class="registration-number">
+                                {{ vehicle.registration_number }}
+                            </div>
+
+                            <div class="vehicle-info">
+
+                                <div>
+                                    <span>Year</span>
+                                    <strong>
+                                        {{ vehicle.year }}
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>Type</span>
+                                    <strong>
+                                        {{ vehicle.vehicle_type }}
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="vehicle-actions">
+
+                            <a href="#"
+                               class="vehicle-view-btn">
+
+                                View Details
+
+                            </a>
+
+                            <form
+                                method="POST"
+                                action="{% url 'delete_vehicle' vehicle.id %}"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="vehicle-delete-btn"
+                                    onclick="return confirm('Are you sure you want to delete this vehicle?');"
+                                >
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- Empty State -->
+
+            <div class="vehicle-empty">
+
+                <div class="empty-vehicle-icon">
+                    🚗
+                </div>
+
+                <h2>
+                    No vehicles added yet
+                </h2>
+
+                <p>
+                    Add your first vehicle to start managing
+                    your service appointments.
+                </p>
+
+                <a
+                    href="{% url 'add_vehicle' %}"
+                    class="add-vehicle-btn"
+                >
+                    + Add Your First Vehicle
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

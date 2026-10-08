@@ -1,0 +1,1410 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Book a Service | AutoCare{% endblock %}
+
+{% block content %}
+
+<section class="booking-page">
+
+    <div class="booking-container">
+
+        <!-- =========================================
+             PAGE HEADER
+        ========================================== -->
+
+        <header class="booking-header">
+
+            <span class="booking-label">
+                AUTOCARE SERVICE
+            </span>
+
+            <h1>
+                Book a Service
+            </h1>
+
+            <p>
+                Schedule your vehicle service with our professional team.
+            </p>
+
+        </header>
+
+
+        <!-- =========================================
+             BOOKING CARD
+        ========================================== -->
+
+        <div class="booking-card">
+
+            <form
+                method="POST"
+                id="booking-form"
+                novalidate
+            >
+
+                {% csrf_token %}
+
+
+                <!-- =========================================
+                     DJANGO ERROR MESSAGE
+                ========================================== -->
+
+                {% if error %}
+
+                    <div
+                        class="booking-error"
+                        role="alert"
+                    >
+                        <p>{{ error }}</p>
+                    </div>
+
+                {% endif %}
+
+
+                <!-- =========================================
+                     DJANGO SUCCESS / SYSTEM MESSAGES
+                ========================================== -->
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div
+                            class="booking-message {{ message.tags }}"
+                            role="status"
+                        >
+                            <p>{{ message }}</p>
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                <!-- =========================================
+                     JAVASCRIPT ERROR MESSAGE
+                ========================================== -->
+
+                <div
+                    id="js-error-message"
+                    class="booking-error"
+                    role="alert"
+                    style="display: none;"
+                ></div>
+
+
+                <!-- =========================================
+                     1. VEHICLE SELECTION
+                ========================================== -->
+
+                <section
+                    class="form-section"
+                    aria-labelledby="vehicle-heading"
+                >
+
+                    <h2 id="vehicle-heading">
+                        1. Select Your Vehicle
+                    </h2>
+
+
+                    <div class="form-group">
+
+                        <label for="vehicle">
+
+                            Vehicle
+
+                            <span class="required-asterisk">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <select
+                            name="vehicle"
+                            id="vehicle"
+                            required
+                            aria-required="true"
+                        >
+
+                            <option value="">
+                                Select your vehicle
+                            </option>
+
+
+                            {% for vehicle in vehicles %}
+
+                                <option
+                                    value="{{ vehicle.id }}"
+                                    {% if request.POST.vehicle == vehicle.id|stringformat:"s" %}
+                                        selected
+                                    {% endif %}
+                                >
+
+                                    {{ vehicle.registration_number }}
+                                    -
+                                    {{ vehicle.brand }}
+                                    {{ vehicle.model }}
+
+                                </option>
+
+                            {% empty %}
+
+                                <option
+                                    value=""
+                                    disabled
+                                >
+                                    No vehicles available
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     2. SERVICE SELECTION
+                ========================================== -->
+
+                <section
+                    class="form-section"
+                    aria-labelledby="services-heading"
+                >
+
+                    <div class="service-section-header">
+
+                        <div>
+
+                            <span class="service-section-label">
+                                AUTOCARE SERVICES
+                            </span>
+
+                            <h2 id="services-heading">
+                                2. Select Services
+                            </h2>
+
+                            <p>
+                                Choose one or more services required
+                                for your vehicle.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SERVICE LIST -->
+
+                    <div class="autocare-service-list">
+
+
+                        {% for service in services %}
+
+
+                            <!-- =================================
+                                 SERVICE CARD
+                            ================================== -->
+
+                            <article
+                                class="autocare-service-card"
+                            >
+
+
+                                <!-- SERVICE IMAGE -->
+
+                                <div
+                                    class="autocare-service-image"
+                                >
+
+                                    {% if service.image %}
+
+                                        <img
+                                            src="{{ service.image.url }}"
+                                            alt="{{ service.name }}"
+                                            loading="lazy"
+                                        >
+
+                                    {% else %}
+
+                                        <img
+                                            src="{% static 'images/service-default.jpg' %}"
+                                            alt="{{ service.name }}"
+                                            loading="lazy"
+                                        >
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <!-- SERVICE DETAILS -->
+
+                                <div
+                                    class="autocare-service-details"
+                                >
+
+
+                                    <!-- SERVICE TITLE -->
+
+                                    <div
+                                        class="autocare-service-title-row"
+                                    >
+
+                                        <h3>
+                                            {{ service.name }}
+                                        </h3>
+
+
+                                        {% if service.estimated_time %}
+
+                                            <span
+                                                class="service-time"
+                                            >
+
+                                                ◷
+                                                {{ service.estimated_time }}
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <!-- DESCRIPTION -->
+
+                                    {% if service.description %}
+
+                                        <p
+                                            class="autocare-service-description"
+                                        >
+
+                                            {{ service.description }}
+
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    <!-- SERVICE FEATURES -->
+
+                                    <div
+                                        class="service-features"
+                                    >
+
+                                        <span>
+                                            <i>✓</i>
+                                            Professional Service
+                                        </span>
+
+                                        <span>
+                                            <i>✓</i>
+                                            Quality Inspection
+                                        </span>
+
+                                        <span>
+                                            <i>✓</i>
+                                            Experienced Technicians
+                                        </span>
+
+                                        <span>
+                                            <i>✓</i>
+                                            Service Warranty
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- SERVICE PRICE -->
+
+                                    <div
+                                        class="autocare-service-price"
+                                    >
+
+                                        <span>
+                                            Service Charge
+                                        </span>
+
+                                        <strong>
+                                            ₹{{ service.price|floatformat:0 }}
+                                        </strong>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- ADD SERVICE BUTTON -->
+
+                                <div
+                                    class="autocare-service-action"
+                                >
+
+                                    <button
+                                        type="button"
+                                        class="add-service-button"
+                                        data-service-id="{{ service.id }}"
+                                        data-service-name="{{ service.name }}"
+                                        data-service-price="{{ service.price }}"
+                                        aria-pressed="false"
+                                    >
+
+                                        Add Service
+
+                                    </button>
+
+                                </div>
+
+
+                            </article>
+
+
+                        {% empty %}
+
+
+                            <!-- NO SERVICES -->
+
+                            <div
+                                class="no-services-message"
+                            >
+
+                                <h3>
+                                    No services available
+                                </h3>
+
+                                <p>
+                                    Please contact the service center.
+                                </p>
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     SELECTED SERVICES
+                ========================================== -->
+
+                <section
+                    class="selected-services-box"
+                    aria-labelledby="selected-services-heading"
+                >
+
+
+                    <!-- SELECTED SERVICES HEADER -->
+
+                    <div
+                        class="selected-services-header"
+                    >
+
+                        <div>
+
+                            <span
+                                class="selected-services-label"
+                            >
+                                YOUR SELECTION
+                            </span>
+
+                            <h3
+                                id="selected-services-heading"
+                            >
+                                Selected Services
+                            </h3>
+
+                        </div>
+
+
+                        <strong
+                            id="selected-service-count"
+                            aria-live="polite"
+                        >
+                            0 services
+                        </strong>
+
+                    </div>
+
+
+                    <!-- SELECTED SERVICES LIST -->
+
+                    <div
+                        id="selected-services-list"
+                        aria-live="polite"
+                    >
+
+                        <p
+                            class="no-selected-services"
+                        >
+                            No services selected.
+                        </p>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         IMPORTANT
+
+                         JavaScript will create:
+
+                         <input
+                             type="hidden"
+                             name="services"
+                             value="1"
+                         >
+
+                         Django reads this using:
+
+                         request.POST.getlist("services")
+                    ====================================== -->
+
+                    <div
+                        id="selected-service-inputs"
+                    ></div>
+
+
+                </section>
+
+
+                <!-- =========================================
+                     3. DATE & TIME
+                ========================================== -->
+
+                <section
+                    class="form-section"
+                    aria-labelledby="datetime-heading"
+                >
+
+                    <h2 id="datetime-heading">
+                        3. Choose Date &amp; Time
+                    </h2>
+
+
+                    <div class="form-row">
+
+
+                        <!-- DATE -->
+
+                        <div class="form-group">
+
+                            <label for="booking_date">
+
+                                Service Date
+
+                                <span
+                                    class="required-asterisk"
+                                >
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <input
+                                type="date"
+                                name="booking_date"
+                                id="booking_date"
+                                value="{{ request.POST.booking_date }}"
+                                required
+                                aria-required="true"
+                            >
+
+                        </div>
+
+
+                        <!-- TIME -->
+
+                        <div class="form-group">
+
+                            <label for="booking_time">
+
+                                Service Time
+
+                                <span
+                                    class="required-asterisk"
+                                >
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <input
+                                type="time"
+                                name="booking_time"
+                                id="booking_time"
+                                value="{{ request.POST.booking_time }}"
+                                required
+                                aria-required="true"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     4. VEHICLE PROBLEM
+                ========================================== -->
+
+                <section
+                    class="form-section"
+                    aria-labelledby="problem-heading"
+                >
+
+                    <h2 id="problem-heading">
+                        4. Vehicle Problem Details
+                    </h2>
+
+
+                    <div class="form-group">
+
+                        <label for="problem_description">
+
+                            Describe the issue
+
+                            <span
+                                class="required-asterisk"
+                            >
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <textarea
+                            name="problem_description"
+                            id="problem_description"
+                            rows="4"
+                            placeholder="Please describe any symptoms, sounds, or issues with your vehicle..."
+                            required
+                            aria-required="true"
+                        >{{ request.POST.problem_description }}</textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     BOOKING SUMMARY
+                ========================================== -->
+
+                <section
+                    class="booking-summary"
+                    aria-label="Booking summary"
+                >
+
+
+                    <!-- SERVICE COUNT -->
+
+                    <div
+                        class="booking-summary-left"
+                    >
+
+                        <span>
+                            Selected Services
+                        </span>
+
+                        <strong
+                            id="summary-service-count"
+                        >
+                            0 services
+                        </strong>
+
+                    </div>
+
+
+                    <!-- TOTAL COST -->
+
+                    <div
+                        class="booking-summary-right"
+                    >
+
+                        <span>
+                            Estimated Cost
+                        </span>
+
+                        <strong>
+
+                            ₹<span id="estimated-cost">
+                                0.00
+                            </span>
+
+                        </strong>
+
+                    </div>
+
+
+                </section>
+
+
+                <!-- =========================================
+                     ACTION BUTTONS
+                ========================================== -->
+
+                <div class="booking-actions">
+
+
+                    <!-- CONFIRM -->
+
+                    <button
+                        type="submit"
+                        class="booking-submit"
+                        id="booking-submit"
+                    >
+
+                        Confirm Booking
+
+                    </button>
+
+
+                    <!-- CANCEL -->
+
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="booking-cancel"
+                    >
+
+                        Cancel
+
+                    </a>
+
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BOOKING JAVASCRIPT
+====================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /*
+    =====================================================
+    ELEMENTS
+    =====================================================
+    */
+
+    const form =
+        document.getElementById("booking-form");
+
+    const selectedServicesList =
+        document.getElementById(
+            "selected-services-list"
+        );
+
+    const selectedServiceInputs =
+        document.getElementById(
+            "selected-service-inputs"
+        );
+
+    const selectedServiceCount =
+        document.getElementById(
+            "selected-service-count"
+        );
+
+    const summaryServiceCount =
+        document.getElementById(
+            "summary-service-count"
+        );
+
+    const estimatedCost =
+        document.getElementById(
+            "estimated-cost"
+        );
+
+    const bookingDate =
+        document.getElementById(
+            "booking_date"
+        );
+
+    const vehicle =
+        document.getElementById(
+            "vehicle"
+        );
+
+    const problemDescription =
+        document.getElementById(
+            "problem_description"
+        );
+
+    const jsErrorContainer =
+        document.getElementById(
+            "js-error-message"
+        );
+
+
+    /*
+    =====================================================
+    SELECTED SERVICES MAP
+    =====================================================
+    */
+
+    const selectedServices =
+        new Map();
+
+
+    /*
+    =====================================================
+    GET TODAY'S DATE
+    =====================================================
+    */
+
+    const today =
+        new Date();
+
+
+    const localToday =
+        new Date(
+            today.getTime()
+            -
+            today.getTimezoneOffset() * 60000
+        )
+        .toISOString()
+        .split("T")[0];
+
+
+    /*
+    =====================================================
+    SET MINIMUM BOOKING DATE
+    =====================================================
+    */
+
+    if (bookingDate) {
+
+        bookingDate.min =
+            localToday;
+
+    }
+
+
+    /*
+    =====================================================
+    DISPLAY JAVASCRIPT ERROR
+    =====================================================
+    */
+
+    function displayJsError(message) {
+
+        if (!jsErrorContainer) {
+            return;
+        }
+
+
+        if (!message) {
+
+            jsErrorContainer.style.display =
+                "none";
+
+            jsErrorContainer.textContent =
+                "";
+
+            return;
+
+        }
+
+
+        jsErrorContainer.textContent =
+            message;
+
+        jsErrorContainer.style.display =
+            "block";
+
+        jsErrorContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }
+
+
+    /*
+    =====================================================
+    UPDATE SERVICE BUTTON
+    =====================================================
+    */
+
+    function updateServiceButton(
+        serviceId,
+        selected
+    ) {
+
+        const button =
+            document.querySelector(
+                `[data-service-id="${serviceId}"]`
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        if (selected) {
+
+            button.textContent =
+                "Added";
+
+            button.classList.add(
+                "selected"
+            );
+
+            button.setAttribute(
+                "aria-pressed",
+                "true"
+            );
+
+        } else {
+
+            button.textContent =
+                "Add Service";
+
+            button.classList.remove(
+                "selected"
+            );
+
+            button.setAttribute(
+                "aria-pressed",
+                "false"
+            );
+
+        }
+
+    }
+
+
+    /*
+    =====================================================
+    RENDER SELECTED SERVICES
+    =====================================================
+    */
+
+    function renderSelectedServices() {
+
+        /*
+        Clear old content
+        */
+
+        selectedServicesList.innerHTML =
+            "";
+
+        selectedServiceInputs.innerHTML =
+            "";
+
+
+        /*
+        No selected services
+        */
+
+        if (selectedServices.size === 0) {
+
+            const emptyMessage =
+                document.createElement("p");
+
+            emptyMessage.className =
+                "no-selected-services";
+
+            emptyMessage.textContent =
+                "No services selected.";
+
+            selectedServicesList.appendChild(
+                emptyMessage
+            );
+
+        }
+
+
+        /*
+        Calculate total
+        */
+
+        let total = 0;
+
+
+        /*
+        Loop through selected services
+        */
+
+        selectedServices.forEach(
+            function (service) {
+
+                total +=
+                    service.price;
+
+
+                /*
+                ==============================
+                SELECTED SERVICE ITEM
+                ==============================
+                */
+
+                const selectedService =
+                    document.createElement(
+                        "div"
+                    );
+
+                selectedService.className =
+                    "selected-service-item";
+
+
+                /*
+                SERVICE NAME
+                */
+
+                const serviceName =
+                    document.createElement(
+                        "span"
+                    );
+
+                serviceName.textContent =
+                    service.name;
+
+
+                /*
+                SERVICE PRICE
+                */
+
+                const servicePrice =
+                    document.createElement(
+                        "strong"
+                    );
+
+                servicePrice.textContent =
+                    `₹${service.price.toFixed(2)}`;
+
+
+                /*
+                REMOVE BUTTON
+                */
+
+                const removeButton =
+                    document.createElement(
+                        "button"
+                    );
+
+                removeButton.type =
+                    "button";
+
+                removeButton.className =
+                    "remove-service-button";
+
+                removeButton.textContent =
+                    "Remove";
+
+                removeButton.setAttribute(
+                    "aria-label",
+                    `Remove ${service.name}`
+                );
+
+
+                /*
+                REMOVE CLICK
+                */
+
+                removeButton.addEventListener(
+                    "click",
+                    function () {
+
+                        selectedServices.delete(
+                            service.id
+                        );
+
+
+                        updateServiceButton(
+                            service.id,
+                            false
+                        );
+
+
+                        renderSelectedServices();
+
+                    }
+                );
+
+
+                /*
+                ADD ELEMENTS
+                */
+
+                selectedService.appendChild(
+                    serviceName
+                );
+
+                selectedService.appendChild(
+                    servicePrice
+                );
+
+                selectedService.appendChild(
+                    removeButton
+                );
+
+
+                selectedServicesList.appendChild(
+                    selectedService
+                );
+
+
+                /*
+                =================================================
+                IMPORTANT FIX
+
+                Django backend expects:
+
+                request.POST.getlist("services")
+
+                Therefore:
+
+                name="services"
+
+                NOT:
+
+                name="service_ids"
+                =================================================
+                */
+
+                const hiddenInput =
+                    document.createElement(
+                        "input"
+                    );
+
+                hiddenInput.type =
+                    "hidden";
+
+                hiddenInput.name =
+                    "services";
+
+                hiddenInput.value =
+                    service.id;
+
+                selectedServiceInputs.appendChild(
+                    hiddenInput
+                );
+
+            }
+        );
+
+
+        /*
+        =====================================================
+        UPDATE SERVICE COUNT
+        =====================================================
+        */
+
+        const count =
+            selectedServices.size;
+
+
+        const countText =
+            `${count} service${count === 1 ? "" : "s"}`;
+
+
+        selectedServiceCount.textContent =
+            countText;
+
+
+        summaryServiceCount.textContent =
+            countText;
+
+
+        /*
+        =====================================================
+        UPDATE ESTIMATED COST
+        =====================================================
+        */
+
+        estimatedCost.textContent =
+            total.toFixed(2);
+
+    }
+
+
+    /*
+    =====================================================
+    TOGGLE SERVICE
+    =====================================================
+    */
+
+    function toggleService(
+        serviceId,
+        serviceName,
+        servicePrice
+    ) {
+
+        /*
+        SERVICE ALREADY SELECTED
+        */
+
+        if (
+            selectedServices.has(
+                serviceId
+            )
+        ) {
+
+            selectedServices.delete(
+                serviceId
+            );
+
+
+            updateServiceButton(
+                serviceId,
+                false
+            );
+
+        }
+
+
+        /*
+        SERVICE NOT SELECTED
+        */
+
+        else {
+
+            selectedServices.set(
+                serviceId,
+                {
+                    id: serviceId,
+                    name: serviceName,
+                    price: servicePrice
+                }
+            );
+
+
+            updateServiceButton(
+                serviceId,
+                true
+            );
+
+        }
+
+
+        /*
+        Clear error
+        */
+
+        displayJsError(
+            null
+        );
+
+
+        /*
+        Update UI
+        */
+
+        renderSelectedServices();
+
+    }
+
+
+    /*
+    =====================================================
+    ADD SERVICE BUTTONS
+    =====================================================
+    */
+
+    const serviceButtons =
+        document.querySelectorAll(
+            ".add-service-button"
+        );
+
+
+    serviceButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const serviceId =
+                        button.dataset.serviceId;
+
+
+                    const serviceName =
+                        button.dataset.serviceName;
+
+
+                    const servicePrice =
+                        parseFloat(
+                            button.dataset.servicePrice
+                        ) || 0;
+
+
+                    toggleService(
+                        serviceId,
+                        serviceName,
+                        servicePrice
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /*
+    =====================================================
+    FORM SUBMISSION VALIDATION
+    =====================================================
+    */
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+
+            /*
+            VEHICLE
+            */
+
+            if (
+                !vehicle ||
+                !vehicle.value
+            ) {
+
+                event.preventDefault();
+
+                displayJsError(
+                    "Please select your vehicle."
+                );
+
+                vehicle.focus();
+
+                return;
+
+            }
+
+
+            /*
+            SERVICES
+            */
+
+            if (
+                selectedServices.size === 0
+            ) {
+
+                event.preventDefault();
+
+                displayJsError(
+                    "Please select at least one service before proceeding."
+                );
+
+                return;
+
+            }
+
+
+            /*
+            DATE
+            */
+
+            if (
+                !bookingDate ||
+                !bookingDate.value
+            ) {
+
+                event.preventDefault();
+
+                displayJsError(
+                    "Please select a service date."
+                );
+
+                bookingDate.focus();
+
+                return;
+
+            }
+
+
+            /*
+            PAST DATE
+            */
+
+            if (
+                bookingDate.value <
+                localToday
+            ) {
+
+                event.preventDefault();
+
+                displayJsError(
+                    "Please select today or a future date."
+                );
+
+                bookingDate.focus();
+
+                return;
+
+            }
+
+
+            /*
+            PROBLEM DESCRIPTION
+            */
+
+            if (
+                !problemDescription ||
+                !problemDescription.value.trim()
+            ) {
+
+                event.preventDefault();
+
+                displayJsError(
+                    "Please describe the vehicle problem."
+                );
+
+                problemDescription.focus();
+
+                return;
+
+            }
+
+
+            /*
+            ALL VALID
+            */
+
+            displayJsError(
+                null
+            );
+
+        }
+    );
+
+
+    /*
+    =====================================================
+    INITIAL RENDER
+    =====================================================
+    */
+
+    renderSelectedServices();
+
+});
+
+</script>
+
+{% endblock %}

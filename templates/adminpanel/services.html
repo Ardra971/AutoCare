@@ -1,0 +1,368 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Services | AutoCare</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/admin.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="admin-layout">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-logo">
+            Auto<span>Care</span>
+        </div>
+
+        <div class="admin-role">
+            ADMIN PANEL
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <a
+                href="{% url 'admin_dashboard' %}"
+                class="admin-nav-link"
+            >
+                <span>▦</span>
+                Dashboard
+            </a>
+
+
+            <a
+                href="{% url 'admin_customers' %}"
+                class="admin-nav-link"
+            >
+                <span>👥</span>
+                Customers
+            </a>
+
+
+            <a
+                href="{% url 'admin_vehicles' %}"
+                class="admin-nav-link"
+            >
+                <span>🚗</span>
+                Vehicles
+            </a>
+
+
+            <a
+                href="{% url 'admin_services' %}"
+                class="admin-nav-link active"
+            >
+                <span>🔧</span>
+                Services
+            </a>
+
+
+            <a
+                href="{% url 'admin_bookings' %}"
+                class="admin-nav-link"
+            >
+                <span>📅</span>
+                Bookings
+            </a>
+
+
+            <a
+                href="{% url 'admin_invoices' %}"
+                class="admin-nav-link"
+            >
+                <span>📄</span>
+                Invoices
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a
+                href="{% url 'home' %}"
+                class="admin-nav-link"
+            >
+                <span>🏠</span>
+                View Website
+            </a>
+
+
+            <a
+                href="{% url 'logout' %}"
+                class="admin-nav-link logout-link"
+            >
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-small-title">
+                    ADMINISTRATION
+                </span>
+
+                <h1>
+                    Services
+                </h1>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <div class="admin-avatar">
+                    {{ user.username|first|upper }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ user.username }}
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             SERVICES CONTENT
+        ========================================== -->
+
+        <section class="admin-panel">
+
+
+            <!-- PANEL HEADER -->
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span>
+                        SERVICE MANAGEMENT
+                    </span>
+
+                    <h2>
+                        Available Services
+                    </h2>
+
+                </div>
+
+
+                <div class="service-panel-actions">
+
+                    <span class="service-total">
+                        Total:
+                        {{ services|length }}
+                    </span>
+
+
+                    <a
+                        href="{% url 'admin_service_add' %}"
+                        class="admin-add-button"
+                    >
+                        + Add Service
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 SERVICE LIST
+            ========================================== -->
+
+            {% if services %}
+
+                <div class="booking-table-wrapper">
+
+                    <table class="booking-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    #
+                                </th>
+
+                                <th>
+                                    SERVICE
+                                </th>
+
+                                <th>
+                                    DESCRIPTION
+                                </th>
+
+                                <th>
+                                    PRICE
+                                </th>
+
+                                <th>
+                                    ESTIMATED TIME
+                                </th>
+
+                                <th>
+                                    CREATED
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for service in services %}
+
+                            <tr>
+
+                                <td>
+                                    {{ forloop.counter }}
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        {{ service.name }}
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="service-description-cell">
+                                        {{ service.description }}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <strong class="service-price-cell">
+                                        ₹{{ service.price }}
+                                    </strong>
+
+                                </td>
+
+
+                                <td>
+                                    {{ service.estimated_time }}
+                                </td>
+
+
+                                <td>
+                                    {{ service.created_at|date:"d M Y" }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- =========================================
+                     EMPTY STATE
+                ========================================== -->
+
+                <div class="admin-empty">
+
+                    <div class="admin-empty-icon">
+                        🔧
+                    </div>
+
+                    <h3>
+                        No services yet
+                    </h3>
+
+                    <p>
+                        Add your first vehicle service to make it
+                        available for customers.
+                    </p>
+
+
+                    <a
+                        href="{% url 'admin_service_add' %}"
+                        class="admin-add-button"
+                    >
+                        + Add First Service
+                    </a>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

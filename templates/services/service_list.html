@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+Services | AutoCare
+{% endblock %}
+
+{% block content %}
+
+<section class="services-page">
+
+    <div class="services-container">
+
+        <div class="services-header">
+
+            <span class="page-label">
+                AUTOCARE SERVICES
+            </span>
+
+            <h1>
+                Vehicle Services
+            </h1>
+
+            <p>
+                Professional service and maintenance
+                for your vehicle.
+            </p>
+
+        </div>
+
+
+        {% if services %}
+
+            <div class="services-grid">
+
+                {% for service in services %}
+
+                    <div class="service-item">
+
+                        <div class="service-item-icon">
+                            🔧
+                        </div>
+
+                        <h2>
+                            {{ service.name }}
+                        </h2>
+
+                        <p>
+                            {{ service.description }}
+                        </p>
+
+                        <div class="service-details">
+
+                            <div>
+                                <span>Price</span>
+
+                                <strong>
+                                    ₹{{ service.price }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Estimated Time</span>
+
+                                <strong>
+                                    {{ service.estimated_time }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <a
+                            href="#"
+                            class="service-book-btn"
+                        >
+                            Book Service →
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="services-empty">
+
+                <div>
+                    🔧
+                </div>
+
+                <h2>
+                    No services available
+                </h2>
+
+                <p>
+                    Services will appear here once they
+                    are added by the administrator.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

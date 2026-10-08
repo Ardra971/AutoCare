@@ -1,0 +1,832 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Customer Dashboard | AutoCare
+{% endblock %}
+
+{% block content %}
+
+<div class="autocare-dashboard">
+
+    <!-- =====================================================
+         HERO SECTION
+    ====================================================== -->
+
+    <section class="dashboard-hero">
+
+        <div class="hero-background-shape shape-one"></div>
+        <div class="hero-background-shape shape-two"></div>
+
+        <div class="hero-content">
+
+            <span class="hero-label">
+                AUTOCARE VEHICLE SERVICE
+            </span>
+
+            <h1>
+                Professional Care
+                <br>
+                <span>For Your Vehicle</span>
+            </h1>
+
+            <p>
+                Complete vehicle service and repair solutions
+                with professional technicians and reliable care.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="{% url 'create_booking' %}"
+                    class="hero-book-button"
+                >
+                    BOOK A SERVICE
+                    <span class="button-arrow">→</span>
+                </a>
+
+                <a
+                    href="{% url 'add_vehicle' %}"
+                    class="hero-vehicle-button"
+                >
+                    ADD VEHICLE
+                    <span class="button-arrow">+</span>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CUSTOMER ACCOUNT
+        ================================================== -->
+
+        <div class="hero-account">
+
+    <button
+        type="button"
+        class="hero-account-button"
+        id="accountMenuButton"
+    >
+        <span class="hero-avatar">
+            {{ user.username|first|upper }}
+        </span>
+
+        <span class="hero-account-name">
+            {{ user.username }}
+        </span>
+
+        <span id="accountArrow">▼</span>
+    </button>
+
+    <div
+        class="customer-account-menu"
+        id="accountMenu"
+    >
+        <div class="account-menu-user">
+            <strong>{{ user.username }}</strong>
+            <span>Customer Account</span>
+        </div>
+
+        <div class="account-menu-line"></div>
+
+        <a href="{% url 'vehicle_list' %}">
+            My Vehicles
+        </a>
+
+        <a href="{% url 'my_bookings' %}">
+            My Bookings
+        </a>
+
+        <a href="{% url 'service_list' %}">
+            Services
+        </a>
+
+        <a href="{% url 'my_invoices' %}">
+    My Invoices
+</a>
+
+        <div class="account-menu-line"></div>
+
+        <a href="{% url 'logout' %}" class="account-logout">
+            Logout
+        </a>
+    </div>
+
+</div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         QUICK ACTION BAR
+    ====================================================== -->
+
+    <section class="quick-action-wrapper">
+
+        <div class="quick-action-bar">
+
+            <!-- BOOK SERVICE -->
+
+            <a
+                href="{% url 'create_booking' %}"
+                class="quick-action black-action"
+            >
+
+                <div class="quick-number">
+                    01
+                </div>
+
+                <div class="quick-action-content">
+
+                    <strong>
+                        Book Service
+                    </strong>
+
+                    <span>
+                        Schedule your vehicle service
+                    </span>
+
+                </div>
+
+                <span class="quick-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- ADD VEHICLE -->
+
+            <a
+                href="{% url 'add_vehicle' %}"
+                class="quick-action black-action"
+            >
+
+                <div class="quick-number">
+                    02
+                </div>
+
+                <div class="quick-action-content">
+
+                    <strong>
+                        Add Vehicle
+                    </strong>
+
+                    <span>
+                        Register your vehicle
+                    </span>
+
+                </div>
+
+                <span class="quick-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- MY VEHICLES -->
+
+            <a
+                href="{% url 'vehicle_list' %}"
+                class="quick-action"
+            >
+
+                <div class="quick-number">
+                    03
+                </div>
+
+                <div class="quick-action-content">
+
+                    <strong>
+                        My Vehicles
+                    </strong>
+
+                    <span>
+                        Manage your vehicles
+                    </span>
+
+                </div>
+
+                <span class="quick-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- MY BOOKINGS -->
+
+            <a
+                href="{% url 'my_bookings' %}"
+                class="quick-action"
+            >
+
+                <div class="quick-number">
+                    04
+                </div>
+
+                <div class="quick-action-content">
+
+                    <strong>
+                        My Bookings
+                    </strong>
+
+                    <span>
+                        Track your service bookings
+                    </span>
+
+                </div>
+
+                <span class="quick-arrow">
+                    →
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         INTRODUCTION
+    ====================================================== -->
+
+    <section class="dashboard-intro">
+
+        <div class="intro-content">
+
+            <span class="section-label">
+                AUTOCARE SERVICE CENTER
+            </span>
+
+            <h2>
+                Complete Vehicle Care
+                <br>
+                <span>Under One Roof</span>
+            </h2>
+
+            <p>
+                Keep your vehicle in excellent condition with
+                professional servicing and repair solutions.
+                From routine maintenance to major repairs,
+                AutoCare helps you manage everything in one place.
+            </p>
+
+            <a
+                href="{% url 'service_list' %}"
+                class="outline-button"
+            >
+                VIEW ALL SERVICES
+                <span>→</span>
+            </a>
+
+        </div>
+
+
+        <!-- FEATURES -->
+
+        <div class="intro-features">
+
+            <div class="intro-feature">
+
+                <div class="feature-line"></div>
+
+                <strong>
+                    Expert Technicians
+                </strong>
+
+                <small>
+                    Professional vehicle service
+                </small>
+
+            </div>
+
+
+            <div class="intro-feature">
+
+                <div class="feature-line"></div>
+
+                <strong>
+                    Quality Service
+                </strong>
+
+                <small>
+                    Reliable repair solutions
+                </small>
+
+            </div>
+
+
+            <div class="intro-feature">
+
+                <div class="feature-line"></div>
+
+                <strong>
+                    Trusted Care
+                </strong>
+
+                <small>
+                    Service you can depend on
+                </small>
+
+            </div>
+
+
+            <div class="intro-feature">
+
+                <div class="feature-line"></div>
+
+                <strong>
+                    Quick Service
+                </strong>
+
+                <small>
+                    Convenient online booking
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         VEHICLES
+    ====================================================== -->
+
+    <section class="vehicles-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    YOUR VEHICLES
+                </span>
+
+                <h2>
+                    Manage Your Vehicles
+                </h2>
+
+            </div>
+
+
+            <a
+                href="{% url 'add_vehicle' %}"
+                class="dark-small-button"
+            >
+                + ADD VEHICLE
+            </a>
+
+        </div>
+
+
+        <div class="vehicle-grid">
+
+            {% for vehicle in user.vehicles.all %}
+
+                <article class="vehicle-card">
+
+                    <div class="vehicle-card-top">
+
+                        <div class="vehicle-card-label">
+                            VEHICLE
+                        </div>
+
+                        <span class="vehicle-type">
+                            {{ vehicle.vehicle_type }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- VEHICLE IMAGE -->
+
+                    <div class="vehicle-visual">
+
+                        <img
+                            src="{% static 'images/vehicles.jpg' %}"
+                            alt="{{ vehicle.brand }} {{ vehicle.model }}"
+                        >
+
+                        <div class="vehicle-image-overlay"></div>
+
+                    </div>
+
+
+                    <!-- VEHICLE DETAILS -->
+
+                    <div class="vehicle-details">
+
+                        <span class="registration-label">
+                            REGISTRATION NUMBER
+                        </span>
+
+                        <h3>
+                            {{ vehicle.registration_number }}
+                        </h3>
+
+                        <p>
+                            {{ vehicle.brand }}
+                            {{ vehicle.model }}
+                        </p>
+
+                        <small>
+                            MODEL YEAR {{ vehicle.year }}
+                        </small>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'vehicle_list' %}"
+                        class="vehicle-view-button"
+                    >
+
+                        VIEW VEHICLE
+
+                        <span>
+                            →
+                        </span>
+
+                    </a>
+
+                </article>
+
+
+            {% empty %}
+
+                <!-- NO VEHICLE -->
+
+                <div class="empty-vehicle">
+
+                    <div class="empty-vehicle-content">
+
+                        <div class="empty-vehicle-line"></div>
+
+                        <div>
+
+                            <span class="section-label">
+                                YOUR VEHICLES
+                            </span>
+
+                            <h3>
+                                No Vehicle Added Yet
+                            </h3>
+
+                            <p>
+                                Add your vehicle to start booking
+                                professional services.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'add_vehicle' %}"
+                        class="dark-small-button"
+                    >
+                        ADD VEHICLE
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SERVICES
+    ====================================================== -->
+
+    <section
+        class="services-section"
+        id="services"
+    >
+
+        <div class="services-heading">
+
+            <div>
+
+                <span class="section-label">
+                    AUTOCARE SERVICES
+                </span>
+
+                <h2>
+                    Services We Provide
+                </h2>
+
+            </div>
+
+
+            <a
+                href="{% url 'service_list' %}"
+                class="outline-small-button"
+            >
+                VIEW ALL SERVICES →
+            </a>
+
+        </div>
+
+
+        {% if services %}
+
+            <div class="dashboard-services-grid">
+
+                {% for service in services %}
+
+                    <article class="dashboard-service-card">
+
+                        <!-- SERVICE IMAGE -->
+
+                        <div class="service-image-area">
+
+                            <img
+                                src="{% static 'images/common.jpg' %}"
+                                alt="{{ service.name }}"
+                            >
+
+                            <div class="service-image-overlay"></div>
+
+                            <span class="service-image-number">
+                                {{ forloop.counter|stringformat:"02d" }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- SERVICE DETAILS -->
+
+                        <div class="service-card-content">
+
+                            <span class="service-number">
+                                AUTOCARE SERVICE
+                            </span>
+
+
+                            <h3>
+                                {{ service.name }}
+                            </h3>
+
+
+                            <p>
+                                {{ service.description }}
+                            </p>
+
+
+                            <div class="service-card-info">
+
+                                <span>
+                                    {{ service.estimated_time }}
+                                </span>
+
+                                <strong>
+                                    ₹{{ service.price }}
+                                </strong>
+
+                            </div>
+
+
+                            <a
+                                href="{% url 'create_booking' %}"
+                                class="service-book-button"
+                            >
+
+                                BOOK SERVICE
+
+                                <span>
+                                    →
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <div class="empty-services">
+
+                <div class="empty-service-line"></div>
+
+                <h3>
+                    No Services Available
+                </h3>
+
+                <p>
+                    Services will appear here when they
+                    are added by the administrator.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- =====================================================
+         WHY AUTOCARE
+    ====================================================== -->
+
+    <section class="why-autocare">
+
+        <div class="why-content">
+
+            <span class="section-label">
+                WHY AUTOCARE
+            </span>
+
+            <h2>
+                Everything Your Vehicle
+                <br>
+                <span>Needs in One Place</span>
+            </h2>
+
+            <p>
+                AutoCare makes vehicle maintenance simple.
+                Select your vehicle, choose a service and
+                schedule your appointment easily.
+            </p>
+
+
+            <a
+                href="{% url 'create_booking' %}"
+                class="yellow-button"
+            >
+
+                BOOK YOUR SERVICE
+
+                <span>
+                    →
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <div class="why-statistics">
+
+            <div class="stat-box">
+
+                <strong>
+                    01
+                </strong>
+
+                <span>
+                    Select Vehicle
+                </span>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <strong>
+                    02
+                </strong>
+
+                <span>
+                    Choose Service
+                </span>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <strong>
+                    03
+                </strong>
+
+                <span>
+                    Book Appointment
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CUSTOMER LINKS
+    ====================================================== -->
+
+    <section class="customer-links">
+
+        <a href="{% url 'vehicle_list' %}">
+
+            <div>
+
+                <strong>
+                    MY VEHICLES
+                </strong>
+
+                <small>
+                    Manage registered vehicles
+                </small>
+
+            </div>
+
+            <b>
+                →
+            </b>
+
+        </a>
+
+
+        <a href="{% url 'my_bookings' %}">
+
+            <div>
+
+                <strong>
+                    MY BOOKINGS
+                </strong>
+
+                <small>
+                    View your service bookings
+                </small>
+
+            </div>
+
+            <b>
+                →
+            </b>
+
+        </a>
+
+
+        <a href="{% url 'service_list' %}">
+
+            <div>
+
+                <strong>
+                    SERVICES
+                </strong>
+
+                <small>
+                    Explore AutoCare services
+                </small>
+
+            </div>
+
+            <b>
+                →
+            </b>
+
+        </a>
+
+
+        <a
+            href="{% url 'create_booking' %}"
+            class="customer-link-dark"
+        >
+
+            <div>
+
+                <strong>
+                    BOOK SERVICE
+                </strong>
+
+                <small>
+                    Schedule your next service
+                </small>
+
+            </div>
+
+            <b>
+                →
+            </b>
+
+        </a>
+
+    </section>
+
+</div>
+
+{% endblock %}

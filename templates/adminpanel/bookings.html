@@ -1,0 +1,417 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Bookings | AutoCare</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/admin.css' %}">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-logo">
+            Auto<span>Care</span>
+        </div>
+
+        <div class="admin-role">
+            ADMIN PANEL
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <a href="{% url 'admin_dashboard' %}"
+               class="admin-nav-link">
+
+                <span>▦</span>
+                Dashboard
+
+            </a>
+
+
+            <a href="{% url 'admin_customers' %}"
+               class="admin-nav-link">
+
+                <span>👥</span>
+                Customers
+
+            </a>
+
+
+            <a href="{% url 'admin_vehicles' %}"
+               class="admin-nav-link">
+
+                <span>🚗</span>
+                Vehicles
+
+            </a>
+
+
+            <a href="{% url 'admin_services' %}"
+               class="admin-nav-link">
+
+                <span>🔧</span>
+                Services
+
+            </a>
+
+
+            <a href="{% url 'admin_bookings' %}"
+               class="admin-nav-link active">
+
+                <span>📅</span>
+                Bookings
+
+            </a>
+
+
+            <a href="{% url 'admin_invoices' %}"
+               class="admin-nav-link">
+
+                <span>📄</span>
+                Invoices
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{% url 'home' %}"
+               class="admin-nav-link">
+
+                <span>🏠</span>
+                View Website
+
+            </a>
+
+
+            <a href="{% url 'logout' %}"
+               class="admin-nav-link logout-link">
+
+                <span>↪</span>
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="admin-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-small-title">
+                    ADMINISTRATION
+                </span>
+
+                <h1>
+                    Bookings
+                </h1>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <div class="admin-avatar">
+                    {{ user.username|first|upper }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ user.username }}
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- BOOKINGS CONTENT -->
+
+        <section class="admin-panel">
+
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span>
+                        BOOKING MANAGEMENT
+                    </span>
+
+                    <h2>
+                        Service Bookings
+                    </h2>
+
+                </div>
+
+
+                <div>
+                    Total: {{ bookings|length }}
+                </div>
+
+            </div>
+
+
+
+            {% if bookings %}
+
+
+            <div class="booking-table-wrapper">
+
+                <table class="booking-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Vehicle
+                            </th>
+
+                            <th>
+                                Service
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Cost
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for booking in bookings %}
+
+                        <tr>
+
+                            <!-- BOOKING NUMBER -->
+
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+
+                            <!-- CUSTOMER -->
+
+                            <td>
+
+                                <strong>
+                                    {{ booking.customer.username }}
+                                </strong>
+
+                            </td>
+
+
+                            <!-- VEHICLE -->
+
+                            <td>
+                                {{ booking.vehicle.registration_number }}
+                            </td>
+
+
+                            <!-- SERVICES -->
+
+                            <td>
+
+                                {% for booking_service in booking.booking_services.all %}
+
+                                    <span class="service-name">
+                                        {{ booking_service.service.name }}
+                                    </span>
+
+                                    {% if not forloop.last %}
+                                        <span>, </span>
+                                    {% endif %}
+
+                                {% empty %}
+
+                                    <span class="no-service">
+                                        No service
+                                    </span>
+
+                                {% endfor %}
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+                                {{ booking.booking_date|date:"d M Y" }}
+                            </td>
+
+
+                            <!-- TIME -->
+
+                            <td>
+                                {{ booking.booking_time|time:"h:i A" }}
+                            </td>
+
+
+                            <!-- COST -->
+
+                            <td>
+                                ₹{{ booking.estimated_cost }}
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <form
+    method="POST"
+    action="{% url 'update_booking_status' booking.id %}"
+    class="status-form"
+>
+    {% csrf_token %}
+
+    <select
+        name="status"
+        class="status-select"
+        onchange="this.form.submit()"
+    >
+
+        <option value="Pending"
+            {% if booking.status == "Pending" %}selected{% endif %}>
+            Pending
+        </option>
+
+        <option value="Confirmed"
+            {% if booking.status == "Confirmed" %}selected{% endif %}>
+            Confirmed
+        </option>
+
+        <option value="Vehicle Received"
+            {% if booking.status == "Vehicle Received" %}selected{% endif %}>
+            Vehicle Received
+        </option>
+
+        <option value="Under Service"
+            {% if booking.status == "Under Service" %}selected{% endif %}>
+            Under Service
+        </option>
+
+        <option value="Completed"
+            {% if booking.status == "Completed" %}selected{% endif %}>
+            Completed
+        </option>
+
+        <option value="Cancelled"
+            {% if booking.status == "Cancelled" %}selected{% endif %}>
+            Cancelled
+        </option>
+
+    </select>
+</form>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="admin-empty">
+
+                <div>
+                    📅
+                </div>
+
+                <h3>
+                    No bookings yet
+                </h3>
+
+                <p>
+                    New service bookings will appear here.
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

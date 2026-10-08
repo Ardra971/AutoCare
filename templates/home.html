@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+
+{% block title %}
+AutoCare | Vehicle Service & Repair
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     HERO SECTION
+====================================================== -->
+
+<section class="hero">
+
+    <div class="container hero-container">
+
+        <div class="hero-content">
+
+            <p class="hero-small-title">
+                PROFESSIONAL AUTO SERVICE
+            </p>
+
+            <h1>
+                Keep Your Vehicle
+                <span>Running Better</span>
+            </h1>
+
+            <p class="hero-description">
+                Reliable vehicle maintenance and repair services
+                with easy online booking and service tracking.
+            </p>
+
+
+            <div class="hero-buttons">
+
+                {% if user.is_authenticated %}
+
+                    <a
+                        href="{% url 'create_booking' %}"
+                        class="btn btn-primary"
+                    >
+                        Book a Service
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="btn btn-primary"
+                    >
+                        Book a Service
+                    </a>
+
+                {% endif %}
+
+
+                <a
+                    href="#services"
+                    class="btn btn-secondary"
+                >
+                    View Services
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SERVICES SECTION
+====================================================== -->
+
+<section
+    class="services-section"
+    id="services"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <p>
+                WHAT WE OFFER
+            </p>
+
+            <h2>
+                Our Professional Services
+            </h2>
+
+            <span>
+                Quality service for your vehicle
+            </span>
+
+        </div>
+
+
+
+        <div class="service-grid">
+
+
+            <!-- SERVICE 1 -->
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🔧
+                </div>
+
+                <h3>
+                    General Maintenance
+                </h3>
+
+                <p>
+                    Regular maintenance to keep your
+                    vehicle safe and reliable.
+                </p>
+
+            </div>
+
+
+
+            <!-- SERVICE 2 -->
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    ⚙️
+                </div>
+
+                <h3>
+                    Mechanical Repair
+                </h3>
+
+                <p>
+                    Professional solutions for
+                    mechanical problems.
+                </p>
+
+            </div>
+
+
+
+            <!-- SERVICE 3 -->
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🔋
+                </div>
+
+                <h3>
+                    Electrical Service
+                </h3>
+
+                <p>
+                    Diagnose and repair electrical
+                    system issues.
+                </p>
+
+            </div>
+
+
+
+            <!-- SERVICE 4 -->
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🛞
+                </div>
+
+                <h3>
+                    Tire & Wheel
+                </h3>
+
+                <p>
+                    Tire inspection, wheel service
+                    and replacement.
+                </p>
+
+            </div>
+
+
+
+            <!-- SERVICE 5 -->
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    Vehicle Diagnostics
+                </h3>
+
+                <p>
+                    Identify vehicle problems using
+                    modern diagnostic methods.
+                </p>
+
+            </div>
+
+
+
+            <!-- SERVICE 6 -->
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🛑
+                </div>
+
+                <h3>
+                    Brake Service
+                </h3>
+
+                <p>
+                    Brake inspection and repair
+                    for safer driving.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT SECTION
+====================================================== -->
+
+<section
+    class="about-section"
+    id="about"
+>
+
+    <div class="container about-container">
+
+
+        <div class="about-content">
+
+            <p class="section-label">
+                ABOUT AUTOCARE
+            </p>
+
+            <h2>
+                Complete Care for
+                Your Vehicle
+            </h2>
+
+            <p>
+                AutoCare is a vehicle service management
+                platform designed to make vehicle maintenance
+                simple and convenient.
+            </p>
+
+            <p>
+                Customers can manage their vehicles, book
+                services, track service status and view
+                invoices from one place.
+            </p>
+
+
+            {% if user.is_authenticated %}
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-primary"
+                >
+                    Go to Dashboard
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{% url 'login' %}"
+                    class="btn btn-primary"
+                >
+                    Get Started
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+
+        <div class="about-box">
+
+
+            <div class="about-stat">
+
+                <h3>
+                    10+
+                </h3>
+
+                <p>
+                    Professional Services
+                </p>
+
+            </div>
+
+
+
+            <div class="about-stat">
+
+                <h3>
+                    500+
+                </h3>
+
+                <p>
+                    Vehicles Serviced
+                </p>
+
+            </div>
+
+
+
+            <div class="about-stat">
+
+                <h3>
+                    24/7
+                </h3>
+
+                <p>
+                    Online Booking
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHY CHOOSE US
+====================================================== -->
+
+<section class="why-section">
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <p>
+                WHY AUTOCARE
+            </p>
+
+            <h2>
+                Why Choose Us?
+            </h2>
+
+        </div>
+
+
+
+        <div class="why-grid">
+
+
+            <!-- WHY 1 -->
+
+            <div class="why-card">
+
+                <h3>
+                    Experienced Service
+                </h3>
+
+                <p>
+                    Professional vehicle maintenance
+                    and repair management.
+                </p>
+
+            </div>
+
+
+
+            <!-- WHY 2 -->
+
+            <div class="why-card">
+
+                <h3>
+                    Transparent Pricing
+                </h3>
+
+                <p>
+                    View service costs and invoice
+                    details clearly.
+                </p>
+
+            </div>
+
+
+
+            <!-- WHY 3 -->
+
+            <div class="why-card">
+
+                <h3>
+                    Easy Booking
+                </h3>
+
+                <p>
+                    Book vehicle services quickly
+                    through our online platform.
+                </p>
+
+            </div>
+
+
+
+            <!-- WHY 4 -->
+
+            <div class="why-card">
+
+                <h3>
+                    Service Tracking
+                </h3>
+
+                <p>
+                    Track your vehicle service status
+                    from booking to completion.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CALL TO ACTION
+====================================================== -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <h2>
+            Ready to Service Your Vehicle?
+        </h2>
+
+        <p>
+            Schedule your next service with AutoCare.
+        </p>
+
+
+        {% if user.is_authenticated %}
+
+            <a
+                href="{% url 'create_booking' %}"
+                class="btn btn-primary"
+            >
+                Book Your Service
+            </a>
+
+        {% else %}
+
+            <a
+                href="{% url 'login' %}"
+                class="btn btn-primary"
+            >
+                Book Your Service
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+{% endblock %}

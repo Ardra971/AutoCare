@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Invoices - AutoCare
+{% endblock %}
+
+
+{% block content %}
+
+<div class="my-invoices-page">
+
+    <div class="invoice-page-header">
+
+        <span>
+            AUTOCARE
+        </span>
+
+        <h1>
+            My Invoices
+        </h1>
+
+        <p>
+            View your vehicle service invoices and payment status.
+        </p>
+
+    </div>
+
+
+    {% if invoices %}
+
+        <div class="customer-invoice-list">
+
+            {% for invoice in invoices %}
+
+                <div class="customer-invoice-card">
+
+                    <div class="customer-invoice-top">
+
+                        <div>
+
+                            <span class="invoice-label">
+                                INVOICE
+                            </span>
+
+                            <h2>
+                                #{{ invoice.id }}
+                            </h2>
+
+                        </div>
+
+
+                        <span
+                            class="invoice-payment-status
+                            {% if invoice.payment_status == 'Paid' %}
+                                paid
+                            {% else %}
+                                pending
+                            {% endif %}"
+                        >
+                            {{ invoice.payment_status }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="invoice-info-grid">
+
+                        <div>
+                            <span>
+                                Vehicle
+                            </span>
+
+                            <strong>
+                                {{ invoice.booking.vehicle.brand }}
+                                {{ invoice.booking.vehicle.model }}
+                            </strong>
+
+                            <small>
+                                {{ invoice.booking.vehicle.registration_number }}
+                            </small>
+                        </div>
+
+
+                        <div>
+                            <span>
+                                Service Date
+                            </span>
+
+                            <strong>
+                                {{ invoice.booking.booking_date|date:"d M Y" }}
+                            </strong>
+                        </div>
+
+
+                        <div>
+                            <span>
+                                Service Charge
+                            </span>
+
+                            <strong>
+                                ₹{{ invoice.service_charge }}
+                            </strong>
+                        </div>
+
+
+                        <div>
+                            <span>
+                                Total Amount
+                            </span>
+
+                            <strong class="invoice-total">
+                                ₹{{ invoice.total_amount }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="customer-invoice-services">
+
+                        <span>
+                            SERVICES
+                        </span>
+
+                        <div>
+
+                            {% for booking_service in invoice.booking.booking_services.all %}
+
+                                <span class="invoice-service-tag">
+                                    {{ booking_service.service.name }}
+                                </span>
+
+                            {% empty %}
+
+                                <span>
+                                    No services
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="customer-invoice-footer">
+
+                        <small>
+                            Created
+                            {{ invoice.created_at|date:"d M Y" }}
+                        </small>
+
+
+                        <a
+                            href="{% url 'invoice_detail' invoice.id %}"
+                            class="view-invoice-button"
+                        >
+                            View Invoice →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="no-invoices">
+
+            <h2>
+                No Invoices Yet
+            </h2>
+
+            <p>
+                Your service invoices will appear here
+                after you create a booking.
+            </p>
+
+            <a href="{% url 'create_booking' %}">
+                Book a Service
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

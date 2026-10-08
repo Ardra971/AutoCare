@@ -1,0 +1,896 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f5f6f8;
+
+    color: #101828;
+}
+
+
+/* ================================
+   LAYOUT
+================================ */
+
+.admin-layout {
+    min-height: 100vh;
+
+    display: flex;
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.admin-sidebar {
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 250px;
+    height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 28px 18px;
+
+    background: #0b0d10;
+
+    color: #ffffff;
+}
+
+
+.admin-logo {
+    padding: 0 12px;
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+
+.admin-logo span {
+    color: #fbbd05;
+}
+
+
+.admin-role {
+    margin: 7px 12px 35px;
+
+    color: #667085;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+/* Navigation */
+
+.admin-nav {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.admin-nav-link {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 13px 14px;
+
+    border-radius: 9px;
+
+    color: #98a2b3;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+
+.admin-nav-link span {
+    width: 20px;
+
+    text-align: center;
+
+    font-size: 16px;
+}
+
+
+.admin-nav-link:hover {
+    color: #ffffff;
+
+    background: #181c21;
+}
+
+
+.admin-nav-link.active {
+    color: #111111;
+
+    background: #fbbd05;
+}
+
+
+.admin-sidebar-bottom {
+    margin-top: auto;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #252a31;
+}
+
+
+.logout-link:hover {
+    color: #ffb4b4;
+
+    background: #261719;
+}
+
+
+/* ================================
+   MAIN
+================================ */
+
+.admin-main {
+    width: calc(100% - 250px);
+
+    margin-left: 250px;
+
+    padding: 35px 40px 60px;
+}
+
+
+/* ================================
+   TOP BAR
+================================ */
+
+.admin-topbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 30px;
+}
+
+
+.admin-small-title {
+    color: #98a2b3;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.admin-topbar h1 {
+    margin: 5px 0 0;
+
+    font-size: 30px;
+
+    letter-spacing: -0.8px;
+}
+
+
+.admin-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.admin-avatar {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fbbd05;
+
+    color: #111111;
+
+    font-weight: 800;
+}
+
+
+.admin-user strong {
+    display: block;
+
+    font-size: 13px;
+}
+
+
+.admin-user span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #98a2b3;
+
+    font-size: 11px;
+}
+
+
+/* ================================
+   WELCOME
+================================ */
+
+.admin-welcome {
+    margin-bottom: 25px;
+
+    padding: 27px 30px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #11161d,
+            #1c222b
+        );
+
+    border-radius: 15px;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 10px 25px rgba(16, 24, 40, 0.08);
+}
+
+
+.admin-welcome span {
+    color: #fbbd05;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.admin-welcome h2 {
+    margin: 8px 0;
+
+    font-size: 24px;
+}
+
+
+.admin-welcome p {
+    margin: 0;
+
+    color: #98a2b3;
+
+    font-size: 13px;
+}
+
+
+/* ================================
+   STATISTICS
+================================ */
+
+.admin-stat-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 25px;
+}
+
+
+.admin-stat-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #eaecf0;
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 4px 15px rgba(16, 24, 40, 0.03);
+}
+
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    font-size: 20px;
+}
+
+
+.customers-icon {
+    background: #edf4ff;
+}
+
+
+.vehicles-icon {
+    background: #eafaf0;
+}
+
+
+.services-icon {
+    background: #fff6dc;
+}
+
+
+.bookings-icon {
+    background: #f1eaff;
+}
+
+
+.invoices-icon {
+    background: #ffecef;
+}
+
+
+.admin-stat-card span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #667085;
+
+    font-size: 11px;
+}
+
+
+.admin-stat-card strong {
+    display: block;
+
+    color: #101828;
+
+    font-size: 23px;
+}
+
+
+/* ================================
+   PANEL
+================================ */
+
+.admin-panel {
+    padding: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #eaecf0;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 4px 15px rgba(16, 24, 40, 0.03);
+}
+
+
+.panel-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+
+.panel-header span {
+    color: #98a2b3;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+
+.panel-header h2 {
+    margin: 5px 0 0;
+
+    font-size: 20px;
+}
+
+
+.panel-header a {
+    color: #c48d00;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* ================================
+   TABLE
+================================ */
+
+.booking-table-wrapper {
+    overflow-x: auto;
+}
+
+
+.booking-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+.booking-table th {
+    padding: 13px 12px;
+
+    background: #f8fafc;
+
+    color: #667085;
+
+    text-align: left;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.booking-table td {
+    padding: 15px 12px;
+
+    border-bottom: 1px solid #f0f2f5;
+
+    color: #475467;
+
+    font-size: 13px;
+}
+
+
+.booking-table tbody tr:hover {
+    background: #fcfcfd;
+}
+
+
+.status-badge {
+    display: inline-block;
+
+    padding: 6px 9px;
+
+    background: #fff6dc;
+
+    border-radius: 20px;
+
+    color: #946c00;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* ================================
+   EMPTY
+================================ */
+
+.admin-empty {
+    padding: 50px 20px;
+
+    text-align: center;
+
+    border: 1px dashed #d0d5dd;
+
+    border-radius: 10px;
+}
+
+
+.admin-empty div {
+    margin-bottom: 12px;
+
+    font-size: 32px;
+}
+
+
+.admin-empty h3 {
+    margin: 0 0 7px;
+
+    font-size: 16px;
+}
+
+
+.admin-empty p {
+    margin: 0;
+
+    color: #98a2b3;
+
+    font-size: 12px;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+
+    .admin-stat-grid {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .admin-sidebar {
+        width: 210px;
+    }
+
+    .admin-main {
+        width: calc(100% - 210px);
+
+        margin-left: 210px;
+
+        padding: 25px;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .admin-sidebar {
+        position: static;
+
+        width: 100%;
+
+        height: auto;
+    }
+
+    .admin-layout {
+        display: block;
+    }
+
+    .admin-main {
+        width: 100%;
+
+        margin-left: 0;
+
+        padding: 20px 15px 40px;
+    }
+
+    .admin-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-topbar {
+        align-items: flex-start;
+
+        gap: 20px;
+
+        flex-direction: column;
+    }
+
+}
+
+/* =========================================
+   ADD SERVICE - FINAL FIX
+========================================= */
+
+.add-service-panel .admin-service-form {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 30px;
+}
+
+.add-service-panel .admin-form-group {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.add-service-panel .admin-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.add-service-panel .admin-form-group input,
+.add-service-panel .admin-form-group textarea,
+.add-service-panel .admin-form-group select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+
+    border: 1px solid #d7dce3;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+
+    outline: none;
+}
+
+.add-service-panel .admin-form-group input {
+    height: 48px;
+}
+
+.add-service-panel .admin-form-group textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.add-service-panel .admin-form-group input:focus,
+.add-service-panel .admin-form-group textarea:focus,
+.add-service-panel .admin-form-group select:focus {
+    border-color: #f5b400;
+
+    box-shadow:
+        0 0 0 3px rgba(245, 180, 0, 0.12);
+}
+
+
+/* PRICE + TIME */
+
+.add-service-panel .admin-form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+
+/* RUPEE */
+
+.add-service-panel .admin-input-prefix {
+    position: relative;
+    width: 100%;
+}
+
+.add-service-panel .admin-input-prefix span {
+    position: absolute;
+
+    left: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #64748b;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.add-service-panel .admin-input-prefix input {
+    padding-left: 38px;
+}
+
+
+/* INFORMATION BOX */
+
+.add-service-panel .admin-form-info {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin: 10px 0 30px;
+
+    padding: 16px 18px;
+
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+
+    background: #fffbeb;
+}
+
+.add-service-panel .admin-form-info-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+.add-service-panel .admin-form-info strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #92400e;
+
+    font-size: 14px;
+}
+
+.add-service-panel .admin-form-info p {
+    margin: 0;
+
+    color: #92400e;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* BUTTON AREA */
+
+.add-service-panel .admin-form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 12px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #edf0f3;
+}
+
+
+/* CANCEL */
+
+.add-service-panel .admin-cancel-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 45px;
+
+    padding: 0 20px;
+
+    border: 1px solid #d7dce3;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.add-service-panel .admin-cancel-button:hover {
+    background: #f8fafc;
+}
+
+
+/* ADD SERVICE */
+
+.add-service-panel .admin-save-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 45px;
+
+    padding: 0 22px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f5b400;
+
+    color: #111827;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.add-service-panel .admin-save-button:hover {
+    background: #e5a900;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .add-service-panel .admin-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .add-service-panel .admin-form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .add-service-panel .admin-cancel-button,
+    .add-service-panel .admin-save-button {
+        width: 100%;
+    }
+
+}
+
+.status-form {
+    margin: 0;
+}
+
+.status-select {
+    min-width: 145px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: #fff;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+}
+
+.status-select:focus {
+    border-color: #ffbf00;
+    box-shadow: 0 0 0 2px rgba(255, 191, 0, 0.15);
+}
+
+.status-select:hover {
+    border-color: #ffbf00;
+}

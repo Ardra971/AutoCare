@@ -1,0 +1,629 @@
+{% extends "base.html" %}
+
+{% block title %}Invoice #{{ invoice.id }} - AutoCare{% endblock %}
+
+{% block content %}
+
+<style>
+    /* ==============================
+       AUTOCARE INVOICE PAGE
+    ============================== */
+
+    .invoice-page {
+        min-height: 100vh;
+        background: #f3f5f7;
+        padding: 50px 20px;
+    }
+
+    .invoice-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.10);
+    }
+
+    /* ==============================
+       HEADER
+    ============================== */
+
+    .invoice-header {
+        background: #111820;
+        color: #ffffff;
+        padding: 35px 45px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .invoice-header::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 5px;
+        background: #ffbf00;
+    }
+
+    .invoice-brand {
+        color: #ffbf00;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        margin-bottom: 8px;
+    }
+
+    .invoice-header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+
+    .invoice-number {
+        margin-top: 8px;
+        color: #c8cdd2;
+        font-size: 15px;
+    }
+
+    .invoice-number strong {
+        color: #ffffff;
+    }
+
+    /* ==============================
+       STATUS
+    ============================== */
+
+    .invoice-status {
+        padding: 10px 22px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .invoice-status.pending {
+        background: #fff3cd;
+        color: #8a6500;
+    }
+
+    .invoice-status.paid {
+        background: #d9f7e5;
+        color: #15733c;
+    }
+
+    /* ==============================
+       BODY
+    ============================== */
+
+    .invoice-body {
+        padding: 40px 45px;
+    }
+
+    .invoice-section {
+        margin-bottom: 38px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .section-title::before {
+        content: "";
+        width: 5px;
+        height: 25px;
+        background: #ffbf00;
+        border-radius: 4px;
+    }
+
+    .section-title h2 {
+        margin: 0;
+        font-size: 21px;
+        color: #151a1f;
+    }
+
+    /* ==============================
+       CUSTOMER / VEHICLE
+    ============================== */
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .detail-card {
+        background: #f7f8f9;
+        border: 1px solid #e7e9eb;
+        border-radius: 10px;
+        padding: 18px 20px;
+    }
+
+    .detail-label {
+        display: block;
+        color: #777f87;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 7px;
+    }
+
+    .detail-value {
+        display: block;
+        color: #151a1f;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    /* ==============================
+       SERVICES TABLE
+    ============================== */
+
+    .service-table-wrapper {
+        overflow-x: auto;
+        border: 1px solid #e4e6e8;
+        border-radius: 12px;
+    }
+
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .invoice-table thead {
+        background: #111820;
+    }
+
+    .invoice-table th {
+        color: #ffffff;
+        padding: 16px 20px;
+        text-align: left;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .invoice-table th:last-child,
+    .invoice-table td:last-child {
+        text-align: right;
+    }
+
+    .invoice-table td {
+        padding: 17px 20px;
+        border-bottom: 1px solid #eeeeee;
+        color: #33383d;
+        font-size: 15px;
+    }
+
+    .invoice-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .invoice-table tbody tr:hover {
+        background: #fffdf4;
+    }
+
+    .service-name {
+        font-weight: 700;
+        color: #1c2329;
+    }
+
+    .service-price {
+        font-weight: 700;
+        color: #1c2329;
+    }
+
+    .no-services {
+        text-align: center !important;
+        color: #888 !important;
+        padding: 25px !important;
+    }
+
+    /* ==============================
+       SUMMARY
+    ============================== */
+
+    .invoice-summary {
+        max-width: 500px;
+        margin-left: auto;
+        background: #f8f9fa;
+        border: 1px solid #e4e6e8;
+        border-radius: 12px;
+        padding: 22px 25px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        color: #555;
+        font-size: 15px;
+    }
+
+    .summary-row strong {
+        color: #222;
+    }
+
+    .total-row {
+        border-top: 2px solid #dfe1e3;
+        margin-top: 10px;
+        padding-top: 18px;
+    }
+
+    .total-row span {
+        font-size: 18px;
+        font-weight: 800;
+        color: #111820;
+    }
+
+    .total-row strong {
+        font-size: 23px;
+        color: #111820;
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+
+    .invoice-footer {
+        border-top: 1px solid #e6e6e6;
+        padding-top: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .invoice-created {
+        color: #777;
+        font-size: 13px;
+    }
+
+    .invoice-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .back-button,
+    .print-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .back-button {
+        background: #eef0f2;
+        color: #222;
+    }
+
+    .back-button:hover {
+        background: #e0e3e6;
+    }
+
+    .print-button {
+        background: #ffbf00;
+        color: #111820;
+        border: none;
+    }
+
+    .print-button:hover {
+        background: #e0a900;
+        transform: translateY(-1px);
+    }
+
+    /* ==============================
+       RESPONSIVE
+    ============================== */
+
+    @media (max-width: 700px) {
+
+        .invoice-page {
+            padding: 20px 10px;
+        }
+
+        .invoice-header {
+            padding: 28px 22px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .invoice-header h1 {
+            font-size: 26px;
+        }
+
+        .invoice-body {
+            padding: 28px 20px;
+        }
+
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .invoice-summary {
+            max-width: none;
+        }
+
+        .invoice-footer {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .invoice-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .back-button,
+        .print-button {
+            width: 100%;
+        }
+    }
+
+    /* ==============================
+       PRINT
+    ============================== */
+
+    @media print {
+
+        body {
+            background: #ffffff !important;
+        }
+
+        .invoice-page {
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .invoice-container {
+            max-width: 100%;
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+        .invoice-actions {
+            display: none;
+        }
+
+        .invoice-header {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+</style>
+
+
+<div class="invoice-page">
+
+    <div class="invoice-container">
+
+        <!-- HEADER -->
+        <div class="invoice-header">
+
+            <div>
+                <div class="invoice-brand">
+                    AUTOCARE
+                </div>
+
+                <h1>Service Invoice</h1>
+
+                <div class="invoice-number">
+                    Invoice <strong>#{{ invoice.id }}</strong>
+                </div>
+            </div>
+
+
+            <div class="invoice-status
+                {% if invoice.payment_status == 'Paid' %}
+                    paid
+                {% else %}
+                    pending
+                {% endif %}
+            ">
+                {{ invoice.payment_status }}
+            </div>
+
+        </div>
+
+
+        <div class="invoice-body">
+
+            <!-- CUSTOMER & VEHICLE -->
+            <div class="invoice-section">
+
+                <div class="section-title">
+                    <h2>Customer & Vehicle Details</h2>
+                </div>
+
+                <div class="details-grid">
+
+                    <div class="detail-card">
+                        <span class="detail-label">
+                            Customer
+                        </span>
+
+                        <span class="detail-value">
+                            {{ invoice.booking.customer.username }}
+                        </span>
+                    </div>
+
+
+                    <div class="detail-card">
+                        <span class="detail-label">
+                            Vehicle
+                        </span>
+
+                        <span class="detail-value">
+                            {{ invoice.booking.vehicle.brand }}
+                            {{ invoice.booking.vehicle.model }}
+                        </span>
+                    </div>
+
+
+                    <div class="detail-card">
+                        <span class="detail-label">
+                            Registration Number
+                        </span>
+
+                        <span class="detail-value">
+                            {{ invoice.booking.vehicle.registration_number }}
+                        </span>
+                    </div>
+
+
+                    <div class="detail-card">
+                        <span class="detail-label">
+                            Service Date
+                        </span>
+
+                        <span class="detail-value">
+                            {{ invoice.booking.booking_date|date:"d M Y" }}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SERVICES -->
+            <div class="invoice-section">
+
+                <div class="section-title">
+                    <h2>Service Details</h2>
+                </div>
+
+                <div class="service-table-wrapper">
+
+                    <table class="invoice-table">
+
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for booking_service in invoice.booking.booking_services.all %}
+
+                            <tr>
+                                <td>
+                                    <span class="service-name">
+                                        {{ booking_service.service.name }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="service-price">
+                                        ₹{{ booking_service.price }}
+                                    </span>
+                                </td>
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="2" class="no-services">
+                                    No services found.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT SUMMARY -->
+            <div class="invoice-section">
+
+                <div class="section-title">
+                    <h2>Payment Summary</h2>
+                </div>
+
+                <div class="invoice-summary">
+
+                    <div class="summary-row">
+                        <span>Service Charge</span>
+                        <strong>₹{{ invoice.service_charge }}</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Parts Charge</span>
+                        <strong>₹{{ invoice.parts_charge }}</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <strong>₹{{ invoice.tax }}</strong>
+                    </div>
+
+                    <div class="summary-row total-row">
+                        <span>Total Amount</span>
+                        <strong>₹{{ invoice.total_amount }}</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+            <div class="invoice-footer">
+
+                <div class="invoice-created">
+                    Invoice created:
+                    {{ invoice.created_at|date:"d M Y, h:i A" }}
+                </div>
+
+                <div class="invoice-actions">
+
+                    <a
+                        href="{% url 'my_invoices' %}"
+                        class="back-button"
+                    >
+                        ← Back to My Invoices
+                    </a>
+
+                    <button
+                        type="button"
+                        class="print-button"
+                        onclick="window.print()"
+                    >
+                        🖨 Print Invoice
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Profile | AutoCare
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-page">
+
+    <div class="profile-container">
+
+        <div class="profile-header">
+
+            <span class="page-label">
+                AUTOCARE ACCOUNT
+            </span>
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p>
+                View your AutoCare account information.
+            </p>
+
+        </div>
+
+
+        <div class="profile-card">
+
+            <div class="profile-avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <div class="profile-details">
+
+                <div class="profile-item">
+                    <span>Username</span>
+                    <strong>{{ user.username }}</strong>
+                </div>
+
+                <div class="profile-item">
+                    <span>Email</span>
+                    <strong>{{ user.email }}</strong>
+                </div>
+
+                <div class="profile-item">
+                    <span>Account Type</span>
+                    <strong>Customer</strong>
+                </div>
+
+                <div class="profile-item">
+                    <span>Date Joined</span>
+                    <strong>{{ user.date_joined|date:"d M Y" }}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

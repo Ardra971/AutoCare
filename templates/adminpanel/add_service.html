@@ -1,0 +1,383 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Service | AutoCare</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/admin.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="admin-layout">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-logo">
+            Auto<span>Care</span>
+        </div>
+
+        <div class="admin-role">
+            ADMIN PANEL
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <a
+                href="{% url 'admin_dashboard' %}"
+                class="admin-nav-link"
+            >
+                <span>▦</span>
+                Dashboard
+            </a>
+
+
+            <a
+                href="{% url 'admin_customers' %}"
+                class="admin-nav-link"
+            >
+                <span>👥</span>
+                Customers
+            </a>
+
+
+            <a
+                href="{% url 'admin_vehicles' %}"
+                class="admin-nav-link"
+            >
+                <span>🚗</span>
+                Vehicles
+            </a>
+
+
+            <a
+                href="{% url 'admin_services' %}"
+                class="admin-nav-link active"
+            >
+                <span>🔧</span>
+                Services
+            </a>
+
+
+            <a
+                href="{% url 'admin_bookings' %}"
+                class="admin-nav-link"
+            >
+                <span>📅</span>
+                Bookings
+            </a>
+
+
+            <a
+                href="{% url 'admin_invoices' %}"
+                class="admin-nav-link"
+            >
+                <span>📄</span>
+                Invoices
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-bottom">
+
+            <a
+                href="{% url 'home' %}"
+                class="admin-nav-link"
+            >
+                <span>🏠</span>
+                View Website
+            </a>
+
+
+            <a
+                href="{% url 'logout' %}"
+                class="admin-nav-link logout-link"
+            >
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-small-title">
+                    ADMINISTRATION
+                </span>
+
+                <h1>
+                    Add Service
+                </h1>
+
+            </div>
+
+
+            <div class="admin-user">
+
+                <div class="admin-avatar">
+                    {{ user.username|first|upper }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ user.username }}
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             ADD SERVICE
+        ========================================== -->
+
+        <section class="admin-panel add-service-panel">
+
+
+            <!-- PANEL HEADER -->
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span>
+                        SERVICE MANAGEMENT
+                    </span>
+
+                    <h2>
+                        Add New Service
+                    </h2>
+
+                    <p class="panel-description">
+                        Add a vehicle service that customers
+                        can select when making a booking.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 FORM
+            ====================================== -->
+
+            <form
+                method="POST"
+                class="admin-service-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- SERVICE NAME -->
+
+                <div class="admin-form-group">
+
+                    <label for="name">
+                        Service Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Example: Engine Service"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="admin-form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Describe the service..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- PRICE AND TIME -->
+
+                <div class="admin-form-row">
+
+
+                    <!-- BASE PRICE -->
+
+                    <div class="admin-form-group">
+
+                        <label for="price">
+                            Base Price
+                        </label>
+
+                        <div class="admin-input-prefix">
+
+                            <span>₹</span>
+
+                            <input
+                                type="number"
+                                id="price"
+                                name="price"
+                                min="0"
+                                step="0.01"
+                                placeholder="500"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ESTIMATED TIME -->
+
+                    <div class="admin-form-group">
+
+                        <label for="estimated_time">
+                            Estimated Time
+                        </label>
+
+                        <input
+                            type="text"
+                            id="estimated_time"
+                            name="estimated_time"
+                            placeholder="Example: 2 hours"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     PRICING INFORMATION
+                ================================== -->
+
+                <div class="admin-form-info">
+
+                    <div class="admin-form-info-icon">
+                        ℹ️
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Service Pricing
+                        </strong>
+
+                        <p>
+                            Vehicle-specific and
+                            problem-based pricing can be
+                            configured separately after
+                            creating this service.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     ACTION BUTTONS
+                ================================== -->
+
+                <div class="admin-form-actions">
+
+
+                    <a
+                        href="{% url 'admin_services' %}"
+                        class="admin-cancel-button"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="admin-save-button"
+                    >
+                        + Add Service
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Vehicle | AutoCare
+{% endblock %}
+
+{% block content %}
+
+<section class="add-vehicle-page">
+
+    <div class="add-vehicle-container">
+
+        <div class="add-vehicle-header">
+
+            <span class="page-label">
+                VEHICLE MANAGEMENT
+            </span>
+
+            <h1>
+                Add Your Vehicle
+            </h1>
+
+            <p>
+                Enter your vehicle details to add it to your
+                AutoCare account.
+            </p>
+
+        </div>
+
+
+        <div class="add-vehicle-card">
+
+            <form method="POST">
+
+                {% csrf_token %}
+                {% if error %}
+
+    <div class="form-error">
+        {{ error }}
+    </div>
+
+{% endif %}
+
+                <!-- Registration Number -->
+
+                <div class="vehicle-form-group">
+
+                    <label for="registration_number">
+                        Registration Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registration_number"
+                        name="registration_number"
+                        placeholder="e.g. KL 07 AB 1234"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Brand -->
+
+                <div class="vehicle-form-row">
+
+                    <div class="vehicle-form-group">
+
+                        <label for="brand">
+                            Brand
+                        </label>
+
+                        <input
+                            type="text"
+                            id="brand"
+                            name="brand"
+                            placeholder="e.g. Toyota"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Model -->
+
+                    <div class="vehicle-form-group">
+
+                        <label for="model">
+                            Model
+                        </label>
+
+                        <input
+                            type="text"
+                            id="model"
+                            name="model"
+                            placeholder="e.g. Innova"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Year and Type -->
+
+                <div class="vehicle-form-row">
+
+                    <div class="vehicle-form-group">
+
+                        <label for="year">
+                            Manufacturing Year
+                        </label>
+
+                        <input
+                            type="number"
+                            id="year"
+                            name="year"
+                            placeholder="e.g. 2022"
+                            min="1900"
+                            max="2030"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="vehicle-form-group">
+
+                        <label for="vehicle_type">
+                            Vehicle Type
+                        </label>
+
+                        <select
+                            id="vehicle_type"
+                            name="vehicle_type"
+                            required
+                        >
+
+                            <option value="">
+                                Select vehicle type
+                            </option>
+
+                            <option value="Car">
+                                Car
+                            </option>
+
+                            <option value="Bike">
+                                Bike
+                            </option>
+
+                            <option value="SUV">
+                                SUV
+                            </option>
+
+                            <option value="Van">
+                                Van
+                            </option>
+
+                            <option value="Truck">
+                                Truck
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="vehicle-form-actions">
+
+                    <a
+                        href="{% url 'vehicle_list' %}"
+                        class="cancel-vehicle-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="save-vehicle-btn"
+                    >
+                        Add Vehicle
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

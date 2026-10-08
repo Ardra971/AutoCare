@@ -1,0 +1,314 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Invoices | AutoCare</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/admin.css' %}">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-logo">
+            Auto<span>Care</span>
+        </div>
+
+        <div class="admin-role">
+            ADMIN PANEL
+        </div>
+
+        <nav class="admin-nav">
+
+            <a href="{% url 'admin_dashboard' %}"
+               class="admin-nav-link">
+                <span>▦</span>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_customers' %}"
+               class="admin-nav-link">
+                <span>👥</span>
+                Customers
+            </a>
+
+            <a href="{% url 'admin_vehicles' %}"
+               class="admin-nav-link">
+                <span>🚗</span>
+                Vehicles
+            </a>
+
+            <a href="{% url 'admin_services' %}"
+               class="admin-nav-link">
+                <span>🔧</span>
+                Services
+            </a>
+
+            <a href="{% url 'admin_bookings' %}"
+               class="admin-nav-link">
+                <span>📅</span>
+                Bookings
+            </a>
+
+            <a href="{% url 'admin_invoices' %}"
+               class="admin-nav-link active">
+                <span>📄</span>
+                Invoices
+            </a>
+
+        </nav>
+
+        <div class="admin-sidebar-bottom">
+
+            <a href="{% url 'home' %}"
+               class="admin-nav-link">
+                <span>🏠</span>
+                View Website
+            </a>
+
+            <a href="{% url 'logout' %}"
+               class="admin-nav-link logout-link">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="admin-main">
+
+        <!-- TOP BAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <span class="admin-small-title">
+                    ADMINISTRATION
+                </span>
+
+                <h1>
+                    Invoices
+                </h1>
+
+            </div>
+
+            <div class="admin-user">
+
+                <div class="admin-avatar">
+                    {{ user.username|first|upper }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ user.username }}
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- INVOICES CONTENT -->
+
+        <section class="admin-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span>
+                        BILLING MANAGEMENT
+                    </span>
+
+                    <h2>
+                        Customer Invoices
+                    </h2>
+
+                </div>
+
+                <div>
+                    Total: {{ invoices|length }}
+                </div>
+
+            </div>
+
+
+            {% if invoices %}
+
+            <div class="booking-table-wrapper">
+
+                <table class="booking-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Customer</th>
+                            <th>Vehicle</th>
+                            <th>Service</th>
+                            <th>Service Charge</th>
+                            <th>Parts</th>
+                            <th>Tax</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Created</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for invoice in invoices %}
+
+                        <tr>
+
+                            <td>
+                                #{{ invoice.id }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ invoice.booking.customer.username }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ invoice.booking.vehicle.registration_number }}
+                            </td>
+
+                            <td>
+                                {% for service in invoice.booking.services.all %}
+    {{ service.name }}{% if not forloop.last %}, {% endif %}
+{% endfor %}
+                            </td>
+
+                            <td>
+                                ₹{{ invoice.service_charge }}
+                            </td>
+
+                            <td>
+                                ₹{{ invoice.parts_charge }}
+                            </td>
+
+                            <td>
+                                ₹{{ invoice.tax }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    ₹{{ invoice.total_amount }}
+                                </strong>
+                            </td>
+
+                            <td>
+
+    <form
+        method="POST"
+        action="{% url 'update_invoice_payment' invoice.id %}"
+        class="payment-status-form"
+    >
+
+        {% csrf_token %}
+
+        <select
+            name="payment_status"
+            class="payment-status-select"
+            onchange="this.form.submit()"
+        >
+
+            <option
+                value="Pending"
+                {% if invoice.payment_status == "Pending" %}
+                    selected
+                {% endif %}
+            >
+                Pending
+            </option>
+
+            <option
+                value="Paid"
+                {% if invoice.payment_status == "Paid" %}
+                    selected
+                {% endif %}
+            >
+                Paid
+            </option>
+
+        </select>
+
+    </form>
+
+</td>
+
+                            <td>
+                                {{ invoice.created_at|date:"d M Y" }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="admin-empty">
+
+                <div>
+                    📄
+                </div>
+
+                <h3>
+                    No invoices yet
+                </h3>
+
+                <p>
+                    Customer invoices will appear here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
